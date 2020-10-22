@@ -23,6 +23,12 @@ const server = app.listen(app.get('port'), ()=>{
 const io = Socket(server);
 
 io.on('connection', (socket)=>{
-    console.log('escuchando...', socket.id);
+    socket.on('chat-message', (data)=>{
+       io.sockets.emit('chat-message', data)
+    })
+
+    socket.on('chat-typing', (data)=>{
+        socket.broadcast.emit('chat-typing', data);
+    })
     
 })
